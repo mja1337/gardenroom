@@ -10,3 +10,5 @@ test('shared cavities do not double-count frame and insulation',()=>{const v=cre
 test('cable route matches wall orientation and includes slack',()=>{const v=createDefault(),c=v.cables[0];const r=cableRoute(v,c);assert.equal(r.points.at(-1)[0],v.x+v.width/2-c.toU);const before=r.length;c.slack+=3;assert.equal(cableRoute(v,c).length,before+3);});
 
 test('higher pent-wall eaves are constrained independently of ridge height',()=>{let v=createDefault();v.width=3;v.depth=3;v.setback=3;v.roof='pent';v.pitch=15;v.height=3;v=normalize(v);assert.ok(eavesHeight(v)<=2.50001);assert.ok(v.height<2.55);});
+
+test('yoga candidates fit the internal floor, keep teacher and avoid door zones',async()=>{const {yogaLayouts,yogaProblems}=await import('./design.js');const v=createDefault();const layouts=yogaLayouts(v,v.yoga);assert.ok(layouts.length>0);assert.ok(layouts[0].count>0);for(const layout of layouts){assert.equal(layout.items.filter(m=>m.teacher).length,1);assert.deepEqual(yogaProblems(v,{...v.yoga,items:layout.items}),[]);}const spacious=yogaLayouts(v,{...v.yoga,gap:.6});assert.ok(spacious[0].count<=layouts[0].count);});
