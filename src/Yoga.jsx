@@ -11,7 +11,7 @@ function Mat({m,s,select,moving}){
       <meshStandardMaterial color={moving?'#d7a542':m.teacher?s.teacherColour:s.studentColour} emissive={moving?'#62420b':'#000000'} emissiveIntensity={moving?.22:0}/>
     </mesh>
     {s.participants&&<group rotation={[0,m.w>m.l?Math.PI/2:0,0]}><mesh position={[0,.7,0]} castShadow><capsuleGeometry args={[.13,.5,4,8]}/><meshStandardMaterial color={m.teacher?'#b86645':'#5d6976'}/></mesh><mesh position={[0,1.22,0]} castShadow><sphereGeometry args={[.11,12,8]}/><meshStandardMaterial color="#c49c7e"/></mesh>{[-1,1].map(a=><React.Fragment key={a}><mesh position={[a*.095,.25,0]}><capsuleGeometry args={[.055,.4,4,6]}/><meshStandardMaterial color="#535a61"/></mesh><mesh position={[a*.21,.75,0]}><capsuleGeometry args={[.04,.35,4,6]}/><meshStandardMaterial color="#c49c7e"/></mesh></React.Fragment>)}</group>}
-    {(hovered||moving)&&<Html position={[0,.04,0]} center><span className="dimension">{moving?'Drag to position':m.teacher?'Teacher':m.id}</span></Html>}
+    {(hovered||moving)&&<Html position={[0,.04,0]} center><span className="dimension">{moving?'Drag to position':`${m.teacher?'Leader · ':''}${m.name||m.id}`}</span></Html>}
   </group>;
 }
 
